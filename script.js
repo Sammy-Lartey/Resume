@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Download Button Functionality ---
     document.getElementById('download-btn').addEventListener('click', function() {
-        const pdfUrl = '../assets/SAMUEL LARTEY-CV.pdf';
+        const pdfUrl = 'SAMUEL-LARTEY-CV.pdf'; // Updated path
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = 'SAMUEL-LARTEY-RESUME.pdf';
@@ -27,39 +27,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const formStatus = document.getElementById('form-status');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(contactForm);
-            const payload = Object.fromEntries(formData);
-
-            formStatus.textContent = 'Sending...';
+        contactForm.addEventListener('submit', function() {
+            // Just show a loading message
+            // Formspree will handle the actual submission
+            formStatus.textContent = 'Sending your message...';
             formStatus.style.color = '#1e3f7a';
-
-            // You'll need to create a new API endpoint for this
-            fetch('https://YOUR_NEW_API_ENDPOINT/prod/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                formStatus.textContent = 'Message sent successfully! I\'ll get back to you soon.';
-                formStatus.style.color = 'green';
-                contactForm.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                formStatus.textContent = 'Failed to send message. Please email me directly at sammylartey39@gmail.com';
-                formStatus.style.color = 'red';
-            });
         });
     }
 
