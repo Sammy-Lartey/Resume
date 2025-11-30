@@ -13,14 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Download Button Functionality ---
     document.getElementById('download-btn').addEventListener('click', function() {
-        const pdfUrl = 'SAMUEL-LARTEY-CV.pdf';
+        const pdfUrl = 'https://docs.google.com/document/d/120C7l4ofZm82aqTAI0lA1lH4XEfnF9EH5arTVrB9_64/export?format=pdf';
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = 'SAMUEL-LARTEY-RESUME.pdf';
+        link.download = 'SAMUEL-LARTEY-CV.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    });
+});
+
 
     // --- Contact Form Handling with Formspree ---
 const contactForm = document.getElementById('contact-form');
