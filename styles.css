@@ -335,8 +335,8 @@ section {
     padding: 10px;
     border-radius: 5px;
 }
-/* ... */
-/* Download Section 
+
+/* Download Section */
 .download-button {
     padding: 15px 30px;
     font-size: 18px;
@@ -353,7 +353,7 @@ section {
     background-color: #1a3361;
     transform: translateY(-3px);
 }
-*/
+
 
 /* Footer */
 footer {
