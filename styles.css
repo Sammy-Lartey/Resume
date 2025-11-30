@@ -340,7 +340,7 @@ section {
 .download-button {
     padding: 15px 30px;
     font-size: 18px;
-    background-color: #3a5a8c;
+    background-color: #3a5a8c; /* Darker blue */
     color: white;
     border: none;
     border-radius: 5px;
@@ -350,10 +350,9 @@ section {
 }
 
 .download-button:hover {
-    background-color: #1a3361;
+    background-color: #1a3361; /* Even darker blue */
     transform: translateY(-3px);
 }
-
 
 /* Footer */
 footer {
