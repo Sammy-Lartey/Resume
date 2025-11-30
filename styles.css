@@ -242,11 +242,6 @@ section {
 }
 
 /* Certifications Section */
-#certifications-section {
-    margin-top: 50px;
-    scroll-margin-top: 80px;
-}
-
 #certifications {
     margin-bottom: 30px;
     padding: 25px;
@@ -262,10 +257,25 @@ section {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+#certifications .project-details {
+    margin-top: 0;
+    padding-left: 0;
+}
+
 #certifications .project-details li {
     margin-bottom: 15px;
     font-size: 18px;
     font-weight: 600;
+    list-style: none;
+    padding-left: 0;
+}
+
+#certifications .project-details li::before {
+    content: "→";
+    position: absolute;
+    left: -25px;
+    color: #4a678c;
+    font-weight: bold;
 }
 
 /* Contact Section */
