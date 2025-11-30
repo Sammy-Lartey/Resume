@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(link);
     });
 
-    // --- Contact Form Handling with Formspree ---
+       // --- Contact Form Handling with Formspree ---
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
@@ -40,17 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.textContent = 'Sending...';
 
             try {
-                // Send to Formspree
+                // Send to Formspree with AJAX
                 const response = await fetch(contactForm.action, {
                     method: 'POST',
-                    body: formData,
+                    body: new URLSearchParams(formData), // Use URLSearchParams instead of FormData
                     headers: {
                         'Accept': 'application/json'
                     }
                 });
 
                 if (response.ok) {
-                    // Success
+                    // Success - Formspree returns JSON response
                     formStatus.textContent = 'Message sent successfully! I will get back to you soon.';
                     formStatus.style.color = 'green';
                     contactForm.reset();
@@ -60,20 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         formStatus.textContent = '';
                     }, 5000);
                 } else {
-                    // Formspree returned an error
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to send message');
+                    throw new Error('Failed to send message');
                 }
             } catch (error) {
-                // Network error or Formspree error
                 console.error('Form submission error:', error);
                 formStatus.textContent = 'Failed to send message. Please email me directly at sammylartey39@gmail.com';
                 formStatus.style.color = 'red';
-                
-                // Clear error message after 5 seconds
-                setTimeout(() => {
-                    formStatus.textContent = '';
-                }, 5000);
             } finally {
                 // Re-enable submit button
                 submitButton.disabled = false;
@@ -81,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
