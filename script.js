@@ -22,57 +22,66 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(link);
     });
 
-       // --- Contact Form Handling with Formspree ---
-    const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
+    // --- Contact Form Handling with Formspree ---
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Prevent default form submission
+console.log('Contact form found:', contactForm); // Debug log
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(event) {
+        console.log('Form submitted!'); // Debug log
+        event.preventDefault(); 
+        console.log('Default prevented!'); // Debug log
+        
+        const formData = new FormData(contactForm);
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        
+        // Show loading state
+        formStatus.textContent = 'Sending your message...';
+        formStatus.style.color = '#1e3f7a';
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        try {
+            console.log('Sending to Formspree...'); // Debug log
             
-            const formData = new FormData(contactForm);
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            
-            // Show loading state
-            formStatus.textContent = 'Sending your message...';
-            formStatus.style.color = '#1e3f7a';
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
-
-            try {
-                // Send to Formspree with AJAX
-                const response = await fetch(contactForm.action, {
-                    method: 'POST',
-                    body: new URLSearchParams(formData), // Use URLSearchParams instead of FormData
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    // Success - Formspree returns JSON response
-                    formStatus.textContent = 'Message sent successfully! I will get back to you soon.';
-                    formStatus.style.color = 'green';
-                    contactForm.reset();
-                    
-                    // Clear success message after 5 seconds
-                    setTimeout(() => {
-                        formStatus.textContent = '';
-                    }, 5000);
-                } else {
-                    throw new Error('Failed to send message');
+            // Use FormData directly with the correct content-type
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData, // Use FormData directly
+                headers: {
+                    'Accept': 'application/json'
                 }
-            } catch (error) {
-                console.error('Form submission error:', error);
-                formStatus.textContent = 'Failed to send message. Please email me directly at sammylartey39@gmail.com';
-                formStatus.style.color = 'red';
-            } finally {
-                // Re-enable submit button
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message';
+            });
+
+            console.log('Response status:', response.status); // Debug log
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Formspree response:', result); // Debug log
+                
+                // Success
+                formStatus.textContent = 'Message sent successfully! I will get back to you soon.';
+                formStatus.style.color = 'green';
+                contactForm.reset();
+                
+                setTimeout(() => {
+                    formStatus.textContent = '';
+                }, 5000);
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        });
-    }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            formStatus.textContent = 'Failed to send message. Please email me directly at sammylartey39@gmail.com';
+            formStatus.style.color = 'red';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+        }
+    });
+}
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
